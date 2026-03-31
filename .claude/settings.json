@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Program Files/nodejs//**)",
+      "Bash(pnpm --version)",
+      "Bash(\"/c/Program Files/nodejs/pnpm\" --version)",
+      "Read(//c/Users/alex/scoop/shims//**)",
+      "Bash(cmd.exe /c \"where node\")",
+      "Bash(cmd.exe /c \"where npm\")",
+      "Read(//c/Users/alex/AppData/Roaming/**)",
+      "Read(//c/Users/alex/**)",
+      "Read(//c/ProgramData/**)",
+      "Read(//c/Users/alex/AppData/Local/**)",
+      "Read(//c//**)",
+      "Read(//c/Program Files \\(x86\\)/**)",
+      "Bash(export PATH=\"/c/nodejs:$PATH\")",
+      "Bash(npm --version)"
+    ]
+  }
+}
