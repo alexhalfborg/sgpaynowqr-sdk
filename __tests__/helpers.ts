@@ -83,38 +83,3 @@ export const HEALTH_SUCCESS_BODY = {
   },
 };
 
-export const BATCH_SUCCESS_BODY = {
-  success: true,
-  data: {
-    results: [
-      {
-        index: 0,
-        success: true,
-        data: {
-          qr_string: "000201010212...",
-          qr_image_base64: "iVBORw0KGgo...",
-          image_mime_type: "image/png",
-          payment_type: "uen",
-          amount: "10.50",
-          currency: "SGD",
-          reference: null,
-          expiry: "24h",
-        },
-      },
-      {
-        index: 1,
-        success: false,
-        error: {
-          code: "VALIDATION_ERROR",
-          message: "Invalid mobile number",
-        },
-      },
-    ],
-    summary: { total: 2, succeeded: 1, failed: 1 },
-  },
-  meta: {
-    api_version: "v1",
-    request_id: "req_batch123",
-    usage: { used: 43, limit: 2000, period: "2026-03" },
-  },
-};

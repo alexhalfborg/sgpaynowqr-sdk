@@ -190,31 +190,6 @@ Import types directly:
 import type { GenerateParams, GenerateResponse, RateLimitInfo } from "sgpaynowqr";
 ```
 
-## Batch Generation
-
-Pro and Enterprise tiers can generate up to 50 QR codes in one request:
-
-```typescript
-const result = await client.generateBatch({
-  items: [
-    { payment_type: "uen", uen: "201234567A", merchant_name: "My Company", amount: 25.0 },
-    { payment_type: "mobile", mobile_number: "+6591234567", amount: 10.5 },
-    { payment_type: "vpa", vpa: "+6591234567#OCBC", amount: 5.0 },
-  ],
-  qr_size: 300,
-});
-
-console.log(result.data.summary); // { total: 3, succeeded: 3, failed: 0 }
-
-for (const item of result.data.results) {
-  if (item.success) {
-    console.log(item.data.qr_string);
-  } else {
-    console.error(`Item ${item.index}: ${item.error.message}`);
-  }
-}
-```
-
 ## Health Check
 
 ```typescript
@@ -235,12 +210,12 @@ const client = createClient("sgpn_your_api_key", {
 
 Limits are per API key, per calendar month (Singapore timezone). Only successful requests count.
 
-| Tier | Monthly Limit | Batch API |
-|------|---------------|-----------|
-| Free | 50 | No |
-| Starter | 200 | No |
-| Pro | 2,000 | Yes |
-| Enterprise | 10,000 | Yes |
+| Tier | Monthly Limit |
+|------|---------------|
+| Free | 50 |
+| Starter | 200 |
+| Pro | 2,000 |
+| Enterprise | 10,000 |
 
 Rate limit info is available on every response via `result.rateLimit`.
 

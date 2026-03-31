@@ -6,7 +6,6 @@ import {
   capturingFetch,
   GENERATE_SUCCESS_BODY,
   HEALTH_SUCCESS_BODY,
-  BATCH_SUCCESS_BODY,
 } from "./helpers.js";
 
 // ---------------------------------------------------------------------------
@@ -381,49 +380,3 @@ describe("health()", () => {
   });
 });
 
-// ---------------------------------------------------------------------------
-// generateBatch()
-// ---------------------------------------------------------------------------
-
-describe("generateBatch()", () => {
-  it("sends batch request and returns results", async () => {
-    const { fetch, captured } = capturingFetch({ body: BATCH_SUCCESS_BODY });
-    const client = createClient("sgpn_test", { fetch });
-    const result = await client.generateBatch({
-      items: [
-        { payment_type: "uen", uen: "201234567A", merchant_name: "Test", amount: 10.5 },
-        { payment_type: "mobile", mobile_number: "+6591234567", amount: 5 },
-      ],
-    });
-
-    expect(captured().url).toContain("/generate/batch");
-    expect(result.data.summary.total).toBe(2);
-    expect(result.data.summary.succeeded).toBe(1);
-    expect(result.data.summary.failed).toBe(1);
-    expect(result.data.results[0].success).toBe(true);
-    expect(result.data.results[1].success).toBe(false);
-  });
-
-  it("throws on TIER_REQUIRED", async () => {
-    const client = createClient("sgpn_free", {
-      fetch: mockFetch({
-        status: 403,
-        body: {
-          success: false,
-          error: { code: "TIER_REQUIRED", message: "Batch requires Pro or Enterprise tier" },
-          meta: { api_version: "v1", request_id: "req_tier" },
-        },
-      }),
-    });
-
-    try {
-      await client.generateBatch({
-        items: [{ payment_type: "uen", uen: "X", merchant_name: "T", amount: 1 }],
-      });
-    } catch (err) {
-      const e = err as SGPayNowQRError;
-      expect(e.code).toBe("TIER_REQUIRED");
-      expect(e.status).toBe(403);
-    }
-  });
-});

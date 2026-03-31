@@ -1,7 +1,5 @@
 import { SGPayNowQRError } from "./errors.js";
 import type {
-  BatchParams,
-  BatchResponse,
   ClientOptions,
   GenerateParams,
   GenerateResponse,
@@ -88,15 +86,6 @@ export function createClient(
       const { data, meta, rateLimit } = await request<GenerateResponse["data"]>(
         "POST",
         "/generate",
-        params,
-      );
-      return { data, meta, rateLimit };
-    },
-
-    async generateBatch(params: BatchParams): Promise<BatchResponse> {
-      const { data, meta, rateLimit } = await request<BatchResponse["data"]>(
-        "POST",
-        "/generate/batch",
         params,
       );
       return { data, meta, rateLimit };

@@ -11,7 +11,6 @@ export interface ClientOptions {
 
 export interface SGPayNowQRClient {
   generate(params: GenerateParams): Promise<GenerateResponse>;
-  generateBatch(params: BatchParams): Promise<BatchResponse>;
   health(): Promise<HealthResponse>;
 }
 
@@ -93,74 +92,6 @@ export interface GenerateData {
 
 export interface GenerateResponse {
   data: GenerateData;
-  meta: ResponseMeta;
-  rateLimit: RateLimitInfo;
-}
-
-// ---------------------------------------------------------------------------
-// Batch – request
-// ---------------------------------------------------------------------------
-
-interface BatchItemBase {
-  amount: number;
-  reference?: string;
-  expiry?: Expiry;
-}
-
-export interface BatchItemUEN extends BatchItemBase {
-  payment_type: "uen";
-  uen: string;
-  merchant_name: string;
-}
-
-export interface BatchItemMobile extends BatchItemBase {
-  payment_type: "mobile";
-  mobile_number: string;
-}
-
-export interface BatchItemVPA extends BatchItemBase {
-  payment_type: "vpa";
-  vpa: string;
-}
-
-export type BatchItem = BatchItemUEN | BatchItemMobile | BatchItemVPA;
-
-export interface BatchParams {
-  items: BatchItem[];
-  qr_color?: string;
-  qr_size?: QRSize;
-  include_image?: boolean;
-}
-
-// ---------------------------------------------------------------------------
-// Batch – response
-// ---------------------------------------------------------------------------
-
-export interface BatchResultSuccess {
-  index: number;
-  success: true;
-  data: GenerateData;
-}
-
-export interface BatchResultFailure {
-  index: number;
-  success: false;
-  error: { code: string; message: string };
-}
-
-export type BatchResult = BatchResultSuccess | BatchResultFailure;
-
-export interface BatchSummary {
-  total: number;
-  succeeded: number;
-  failed: number;
-}
-
-export interface BatchResponse {
-  data: {
-    results: BatchResult[];
-    summary: BatchSummary;
-  };
   meta: ResponseMeta;
   rateLimit: RateLimitInfo;
 }
