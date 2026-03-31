@@ -3,3 +3,13 @@ dist/
 coverage/
 *.tsbuildinfo
 .DS_Store
+
+# IDE / editor
+*.code-workspace
+.vscode/
+
+# Claude Code
+.claude/
+
+# Internal docs
+PLAN.md
