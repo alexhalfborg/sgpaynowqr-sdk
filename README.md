@@ -10,7 +10,7 @@ TypeScript SDK for the [SGPayNowQR API](https://developers.sgpaynowqr.com/docs) 
 ## Install
 
 ```bash
-npm install sgpaynowqr
+npm install @alexhalfborg/sgpaynowqr
 ```
 
 ## Quick Start
@@ -20,7 +20,7 @@ Get your API key at [developers.sgpaynowqr.com](https://developers.sgpaynowqr.co
 ### UEN Payment
 
 ```typescript
-import { createClient } from "sgpaynowqr";
+import { createClient } from "@alexhalfborg/sgpaynowqr";
 
 const client = createClient("sgpn_your_api_key");
 
@@ -126,7 +126,7 @@ const { data } = await client.generate({
 All API and network errors throw `SGPayNowQRError`:
 
 ```typescript
-import { createClient, SGPayNowQRError } from "sgpaynowqr";
+import { createClient, SGPayNowQRError } from "@alexhalfborg/sgpaynowqr";
 
 const client = createClient("sgpn_your_api_key");
 
@@ -187,7 +187,7 @@ client.generate({
 Import types directly:
 
 ```typescript
-import type { GenerateParams, GenerateResponse, RateLimitInfo } from "sgpaynowqr";
+import type { GenerateParams, GenerateResponse, RateLimitInfo } from "@alexhalfborg/sgpaynowqr";
 ```
 
 ## Health Check
