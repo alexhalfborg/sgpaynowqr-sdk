@@ -1,0 +1,47 @@
+{
+  "name": "@alexhalfborg/sgpaynowqr-mcp",
+  "version": "0.1.0",
+  "description": "Run the SGPayNowQR MCP server locally via npx — bridges stdio-only MCP clients (Cursor, Claude Desktop, Windsurf) to the remote SGPayNowQR MCP server over Streamable HTTP.",
+  "license": "MIT",
+  "author": "alexhalfborg",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexhalfborg/sgpaynowqr-sdk.git",
+    "directory": "mcp"
+  },
+  "homepage": "https://developers.sgpaynowqr.com/docs/guides/mcp-server-setup",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "paynow",
+    "sgqr",
+    "singapore",
+    "qr",
+    "qr-code",
+    "payments",
+    "fintech"
+  ],
+  "type": "module",
+  "bin": {
+    "sgpaynowqr-mcp": "dist/cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "mcp-remote": "^0.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}
