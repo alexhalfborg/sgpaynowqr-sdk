@@ -1,7 +1,7 @@
 # @alexhalfborg/sgpaynowqr-mcp
 
 Run the [SGPayNowQR](https://developers.sgpaynowqr.com) MCP server from any stdio-only MCP
-client (Cursor, Claude Desktop, Windsurf, etc). This package doesn't run its own MCP server — it
+client that can only launch a local process. This package doesn't run its own MCP server — it
 bridges your client's stdio connection to the real server at
 `https://developers.sgpaynowqr.com/api/mcp` over Streamable HTTP, using
 [`mcp-remote`](https://www.npmjs.com/package/mcp-remote).
@@ -32,10 +32,18 @@ Add this to your MCP client's config:
 }
 ```
 
-If your client supports remote MCP servers natively (Streamable HTTP), you can skip this package
-and point it directly at the endpoint instead — see the
-[MCP server setup guide](https://developers.sgpaynowqr.com/docs/guides/mcp-server-setup) for that
-config and more detail on the server itself.
+## You may not need this package
+
+Most clients now connect to remote MCP servers directly, which is simpler and needs no Node.js:
+
+- **Claude Code, Cursor, VS Code, Windsurf, Codex CLI, Gemini CLI**: point them at
+  `https://developers.sgpaynowqr.com/api/mcp` with an `X-API-Key` header.
+- **Claude (web & desktop) and ChatGPT**: these usually accept only a URL, so add a custom
+  connector with your personal URL, `https://developers.sgpaynowqr.com/api/mcp/<your key>`.
+
+The [MCP setup guide](https://developers.sgpaynowqr.com/docs/guides/mcp-server-setup) has
+copy-paste config for each client. Logged in? **API Keys → Connect to AI** in the portal shows the
+same instructions with your key already filled in.
 
 ## License
 
