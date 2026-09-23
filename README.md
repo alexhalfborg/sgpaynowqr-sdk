@@ -208,7 +208,7 @@ const client = createClient("sgpn_your_api_key", {
 
 ## Rate Limits
 
-Limits are per API key, per calendar month (Singapore timezone). Only successful requests count.
+Limits are per account, shared across all your API keys, per calendar month (Singapore timezone). Only successful requests count.
 
 | Tier | Monthly Limit |
 |------|---------------|
