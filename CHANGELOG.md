@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.0
+
+- `GenerateData.image_url`: a signed link to the QR code PNG, always returned by the API
+- Published from GitHub Actions with npm provenance
+
 ## 0.1.0
 
 Initial release.

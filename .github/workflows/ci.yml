@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: ${{ matrix.package.name }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - { name: sdk, dir: ., test: true }
+          - { name: mcp, dir: mcp, test: false }
+
+    defaults:
+      run:
+        working-directory: ${{ matrix.package.dir }}
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: '24'
+
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+        if: matrix.package.test
+      - run: npm run build

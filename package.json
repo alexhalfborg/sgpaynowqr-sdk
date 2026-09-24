@@ -48,7 +48,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "release": "node scripts/release.mjs"
   },
   "devDependencies": {
     "tsup": "^8.0.0",

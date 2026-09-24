@@ -1,0 +1,72 @@
+# Publishes one of the two packages in this repo to npm, with provenance, when a
+# release tag is pushed:
+#
+#   sdk-v1.2.3  ->  @alexhalfborg/sgpaynowqr      (repo root)
+#   mcp-v1.2.3  ->  @alexhalfborg/sgpaynowqr-mcp  (mcp/)
+#
+# Create tags with `npm run release -- <sdk|mcp> <patch|minor|major>` rather than by hand.
+#
+# Authentication is npm trusted publishing (OIDC), so there is no NPM_TOKEN secret.
+# Each package trusts this workflow file once:
+#   npm trust github @alexhalfborg/sgpaynowqr --file publish.yml --repo alexhalfborg/sgpaynowqr-sdk --allow-publish
+#   npm trust github @alexhalfborg/sgpaynowqr-mcp --file publish.yml --repo alexhalfborg/sgpaynowqr-sdk --allow-publish
+
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'sdk-v*.*.*'
+      - 'mcp-v*.*.*'
+
+jobs:
+  publish:
+    name: Publish to npm
+    runs-on: ubuntu-latest
+
+    permissions:
+      # Required for trusted publishing and the provenance attestation
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          # Pinned: trusted publishing needs npm 11.5.1+, and npm 12 (newer Node)
+          # skips dependency install scripts by default
+          node-version: '24'
+
+      - name: Work out which package to publish
+        id: pkg
+        run: |
+          case "$GITHUB_REF_NAME" in
+            sdk-v*) dir=.;   version="${GITHUB_REF_NAME#sdk-v}" ;;
+            mcp-v*) dir=mcp; version="${GITHUB_REF_NAME#mcp-v}" ;;
+            *) echo "Unexpected tag $GITHUB_REF_NAME"; exit 1 ;;
+          esac
+          actual=$(node -p "require('./$dir/package.json').version")
+          if [ "$actual" != "$version" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match $dir/package.json version $actual"
+            exit 1
+          fi
+          echo "dir=$dir" >> "$GITHUB_OUTPUT"
+
+      - name: Install dependencies
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        run: npm ci
+
+      - name: Typecheck
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        run: npm run typecheck
+
+      - name: Test
+        if: steps.pkg.outputs.dir == '.'
+        run: npm test
+
+      - name: Publish
+        working-directory: ${{ steps.pkg.outputs.dir }}
+        # prepublishOnly runs the build
+        run: npm publish --provenance --access public
