@@ -1,6 +1,6 @@
 {
   "name": "@alexhalfborg/sgpaynowqr-mcp",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Run the SGPayNowQR MCP server locally via npx — bridges stdio-only MCP clients (Cursor, Claude Desktop, Windsurf) to the remote SGPayNowQR MCP server over Streamable HTTP.",
   "license": "MIT",
   "author": "alexhalfborg",
