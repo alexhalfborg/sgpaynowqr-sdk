@@ -71,6 +71,7 @@ const result = await client.generate({
 // QR code data
 result.data.qr_string;        // "000201010212..."
 result.data.qr_image_base64;  // base64-encoded PNG (when include_image=true)
+result.data.image_url;        // signed link to the PNG (always returned)
 result.data.payment_type;     // "uen"
 result.data.amount;           // "25.00" (string)
 result.data.currency;         // "SGD"

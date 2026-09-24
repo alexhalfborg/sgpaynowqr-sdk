@@ -83,6 +83,8 @@ export interface GenerateData {
   qr_string: string;
   qr_image_base64?: string;
   image_mime_type?: string;
+  /** Signed link to the QR code PNG. Always returned, even when include_image is false. */
+  image_url: string;
   payment_type: PaymentType;
   amount: string;
   currency: "SGD";
